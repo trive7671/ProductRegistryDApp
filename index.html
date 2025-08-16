@@ -1,50 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Product Registry dApp</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #e3f2fd, #ffffff, #e8f5e9);
-      margin: 0; padding: 0;
-      color: #004d40;
-    }
-    header {
-      background-color: #00796b;
-      padding: 1rem;
-      text-align: center;
-      color: white;
-    }
-    .container {
-      padding: 2rem;
-      max-width: 800px;
-      margin: 2rem auto;
-      background-color: #ffffffcc;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    h2 { color: #00695c; }
-    input, button, textarea {
-      display: block;
-      width: 100%;
-      margin-bottom: 1rem;
-      padding: 0.8rem;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background-color: #00796b;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover { background-color: #004d40; }
-    .section { margin-top: 2rem; }
-    .hidden { display: none; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Product Registry dApp</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #e0f7fa, #ffffff);
+    margin: 0;
+    color: #004d40;
+  }
+  header {
+    background-color: #00796b;
+    padding: 1.2rem;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  .container {
+    padding: 2rem;
+    max-width: 850px;
+    margin: 2rem auto;
+    background-color: #ffffffee;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  h2 { 
+    color: #00695c;
+    border-bottom: 2px solid #00796b;
+    padding-bottom: 0.5rem;
+  }
+  input, button, textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.9rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  button {
+    background-color: #00796b;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  button:hover { background-color: #004d40; }
+  .section { margin-top: 2rem; }
+  .hidden { display: none; }
+  .connect-wallet span {
+    margin-left: 1rem;
+    font-weight: bold;
+  }
+</style>
 </head>
 <body>
 
@@ -56,7 +67,6 @@
   </div>
 </header>
 
-<!-- Login / Registration -->
 <div class="container" id="loginContainer">
   <div class="section">
     <h2>Login</h2>
@@ -73,9 +83,8 @@
   </div>
 </div>
 
-<!-- Dashboard -->
 <div class="container hidden" id="dashboard">
-  <div class="section">
+  <div class="section" style="text-align:right;">
     <button onclick="logoutUser()">Logout</button>
   </div>
 
@@ -123,8 +132,7 @@
 <script>
 let contract, userAccount, currentOTP;
 
-// Replace this ABI with the one from your smart contract
-const contractABI = [[
+const contractABI = [ [
 	{
 		"inputs": [
 			{
@@ -147,80 +155,6 @@ const contractABI = [[
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "productId",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "buyerInfo",
-				"type": "string"
-			}
-		],
-		"name": "DeliveryConfirmed",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "productId",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "reporter",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "description",
-				"type": "string"
-			}
-		],
-		"name": "FraudReported",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "productId",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "manufacturer",
-				"type": "string"
-			}
-		],
-		"name": "ProductRegistered",
-		"type": "event"
 	},
 	{
 		"inputs": [
@@ -282,17 +216,9 @@ const contractABI = [[
 		"type": "function"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "username",
-				"type": "string"
-			}
-		],
-		"name": "UserRegistered",
-		"type": "event"
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	},
 	{
 		"inputs": [
@@ -302,12 +228,22 @@ const contractABI = [[
 				"type": "string"
 			}
 		],
-		"name": "deliveryInfo",
+		"name": "deliveries",
 		"outputs": [
 			{
 				"internalType": "string",
-				"name": "",
+				"name": "buyerName",
 				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "buyerMobile",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "delivered",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -337,6 +273,35 @@ const contractABI = [[
 				"internalType": "string",
 				"name": "description",
 				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_id",
+				"type": "string"
+			}
+		],
+		"name": "getDelivery",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -443,6 +408,35 @@ const contractABI = [[
 		"inputs": [
 			{
 				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "users",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "passwordHash",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bool",
+				"name": "isAdmin",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
 				"name": "_username",
 				"type": "string"
 			},
@@ -463,8 +457,8 @@ const contractABI = [[
 		"stateMutability": "view",
 		"type": "function"
 	}
-]];
-const contractAddress = "0xce2a80140c0cc2c50ff172700fd905aae6c5ce28";
+] ];
+const contractAddress = "0xf640dbc64aef160a8fc4362582b16c41e1d1b7a9";
 
 async function connectWallet() {
   if(window.ethereum){
@@ -479,7 +473,6 @@ async function connectWallet() {
   } else { alert("MetaMask not detected"); }
 }
 
-// --- User Registration/Login ---
 async function registerNewUser() {
   const username = document.getElementById("regUsername").value;
   const password = document.getElementById("regPassword").value;
@@ -507,20 +500,17 @@ function logoutUser(){
   document.getElementById("loginContainer").classList.remove("hidden");
 }
 
-// --- Product / Fraud Functions ---
 async function registerProduct() {
   const id = document.getElementById("productId").value;
   const name = document.getElementById("productName").value;
   const mfg = document.getElementById("manufacturer").value;
-  try {
-    await contract.methods.registerProduct(id,name,mfg).send({ from:userAccount });
-    alert("Product registered!");
-  } catch(err){ console.error(err); alert("Failed to register product."); }
+  try { await contract.methods.registerProduct(id,name,mfg).send({ from:userAccount }); alert("Product registered!"); }
+  catch(err){ console.error(err); alert("Failed to register product."); }
 }
 
 async function verifyProduct() {
   const id = document.getElementById("verifyId").value;
-  try {
+  try { 
     const result = await contract.methods.getProduct(id).call();
     document.getElementById("verifyResult").innerText = `Name: ${result[0]}, Manufacturer: ${result[1]}`;
   } catch(err){ console.error(err); alert("Product verification failed."); }
@@ -537,10 +527,8 @@ async function confirmDelivery() {
   const mobile = document.getElementById("buyerMobile").value;
   const otp = document.getElementById("otpCode").value;
   if(parseInt(otp)!==currentOTP){ alert("Invalid OTP"); return; }
-  try{
-    await contract.methods.confirmDelivery(id,name,mobile).send({ from:userAccount });
-    alert("Delivery confirmed!");
-  } catch(err){ console.error(err); alert("Delivery failed"); }
+  try{ await contract.methods.confirmDelivery(id,name,mobile).send({ from:userAccount }); alert("Delivery confirmed!"); }
+  catch(err){ console.error(err); alert("Delivery failed"); }
 }
 
 async function submitFraudReport() {
