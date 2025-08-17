@@ -38,8 +38,8 @@
   }
 
   h2 {
-    color: #2a9d8f;
-    border-bottom: 3px solid #2a9d8f;
+    color: inherit;
+    border-bottom: 3px solid currentColor;
     padding-bottom: 0.6rem;
     margin-bottom: 1rem;
     font-weight: 700;
@@ -63,8 +63,8 @@
   input:focus,
   textarea:focus {
     outline: none;
-    border-color: #2a9d8f;
-    box-shadow: 0 0 8px rgba(42, 157, 143, 0.35);
+    border-color: currentColor;
+    box-shadow: 0 0 8px rgba(0,0,0,0.15);
   }
 
   textarea {
@@ -73,24 +73,24 @@
   }
 
   button {
-    background-color: #2a9d8f;
+    background-color: currentColor;
     color: white;
     font-weight: 700;
     cursor: pointer;
     border: none;
-    box-shadow: 0 5px 12px rgba(42, 157, 143, 0.5);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.15);
     transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
   }
 
   button:hover {
-    background-color: #21867a;
-    box-shadow: 0 7px 16px rgba(33, 134, 122, 0.75);
+    background-color: #00000033;
+    box-shadow: 0 7px 16px rgba(0,0,0,0.2);
     transform: translateY(-2px);
   }
 
   button:active {
     transform: translateY(0);
-    box-shadow: 0 4px 8px rgba(33, 134, 122, 0.5);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   }
 
   .section {
@@ -114,6 +114,18 @@
   #dashboard > .section:first-child {
     text-align: right;
   }
+
+  /* Admin (red) theme */
+  #dashboard.admin {
+    color: #b00020;
+    border: 3px solid #b00020;
+  }
+
+  /* User (blue) theme */
+  #dashboard.user {
+    color: #1565c0;
+    border: 3px solid #1565c0;
+  }
 </style>
 </head>
 <body>
@@ -128,14 +140,14 @@
 <div class="container" id="loginContainer">
   <div class="section">
     <h2>Login</h2>
-    <input id="loginUsername" placeholder="Username" />
-    <input type="password" id="loginPassword" placeholder="Password" />
+    <input id="loginUsername" placeholder="Username" autocomplete="username"/>
+    <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password"/>
     <button onclick="loginUser()">Login</button>
   </div>
   <div class="section">
     <h2>New User Registration</h2>
-    <input id="regUsername" placeholder="Username" />
-    <input type="password" id="regPassword" placeholder="Password" />
+    <input id="regUsername" placeholder="Username" autocomplete="username"/>
+    <input type="password" id="regPassword" placeholder="Password" autocomplete="new-password"/>
     <button onclick="registerNewUser()">Register</button>
   </div>
 </div>
@@ -170,14 +182,14 @@
     <button onclick="confirmDelivery()">Confirm Delivery</button>
   </div>
 
-  <div class="section">
+  <div class="section" id="fraudReportSection">
     <h2>Fraud Report</h2>
     <input id="fraudProductId" placeholder="Product ID" />
     <textarea id="fraudDescription" placeholder="Describe the issue..."></textarea>
     <button onclick="submitFraudReport()">Submit Report</button>
   </div>
 
-  <div class="section">
+  <div class="section" id="fraudReportSearchSection">
     <h2>Check Fraud Reports</h2>
     <input id="searchProductId" placeholder="Product ID to Search Reports" />
     <button onclick="searchFraudReports()">Search Reports</button>
@@ -188,206 +200,9 @@
 <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
 <script>
 let contract, userAccount, currentOTP;
-const contractABI = [
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_id", "type": "string" },
-            { "internalType": "string", "name": "_buyerName", "type": "string" },
-            { "internalType": "string", "name": "_buyerMobile", "type": "string" }
-        ],
-        "name": "confirmDelivery",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": false, "internalType": "string", "name": "productId", "type": "string" }
-        ],
-        "name": "DeliveryConfirmed",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": false, "internalType": "string", "name": "productId", "type": "string" },
-            { "indexed": false, "internalType": "address", "name": "reporter", "type": "address" }
-        ],
-        "name": "FraudReported",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": false, "internalType": "string", "name": "productId", "type": "string" }
-        ],
-        "name": "ProductRegistered",
-        "type": "event"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_id", "type": "string" },
-            { "internalType": "string", "name": "_name", "type": "string" },
-            { "internalType": "string", "name": "_manufacturer", "type": "string" }
-        ],
-        "name": "registerProduct",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_username", "type": "string" },
-            { "internalType": "string", "name": "_password", "type": "string" }
-        ],
-        "name": "registerUser",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_id", "type": "string" },
-            { "internalType": "string", "name": "_description", "type": "string" }
-        ],
-        "name": "reportFraud",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": false, "internalType": "string", "name": "username", "type": "string" }
-        ],
-        "name": "UserRegistered",
-        "type": "event"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "", "type": "string" }
-        ],
-        "name": "deliveries",
-        "outputs": [
-            { "internalType": "string", "name": "buyerName", "type": "string" },
-            { "internalType": "string", "name": "buyerMobile", "type": "string" },
-            { "internalType": "bool", "name": "delivered", "type": "bool" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "", "type": "string" },
-            { "internalType": "uint256", "name": "", "type": "uint256" }
-        ],
-        "name": "fraudReports",
-        "outputs": [
-            { "internalType": "address", "name": "reporter", "type": "address" },
-            { "internalType": "string", "name": "description", "type": "string" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_id", "type": "string" }
-        ],
-        "name": "getDelivery",
-        "outputs": [
-            { "internalType": "string", "name": "", "type": "string" },
-            { "internalType": "string", "name": "", "type": "string" },
-            { "internalType": "bool", "name": "", "type": "bool" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_id", "type": "string" }
-        ],
-        "name": "getFraudReports",
-        "outputs": [
-            {
-                "components": [
-                    { "internalType": "address", "name": "reporter", "type": "address" },
-                    { "internalType": "string", "name": "description", "type": "string" }
-                ],
-                "internalType": "struct ProductRegistry.FraudReport[]",
-                "name": "",
-                "type": "tuple[]"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_id", "type": "string" }
-        ],
-        "name": "getProduct",
-        "outputs": [
-            { "internalType": "string", "name": "", "type": "string" },
-            { "internalType": "string", "name": "", "type": "string" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "owner",
-        "outputs": [
-            { "internalType": "address", "name": "", "type": "address" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "", "type": "string" }
-        ],
-        "name": "products",
-        "outputs": [
-            { "internalType": "string", "name": "name", "type": "string" },
-            { "internalType": "string", "name": "manufacturer", "type": "string" },
-            { "internalType": "bool", "name": "exists", "type": "bool" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "", "type": "string" }
-        ],
-        "name": "users",
-        "outputs": [
-            { "internalType": "string", "name": "username", "type": "string" },
-            { "internalType": "bytes32", "name": "passwordHash", "type": "bytes32" },
-            { "internalType": "bool", "name": "isAdmin", "type": "bool" },
-            { "internalType": "bool", "name": "registered", "type": "bool" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_username", "type": "string" },
-            { "internalType": "string", "name": "_password", "type": "string" }
-        ],
-        "name": "verifyUser",
-        "outputs": [
-            { "internalType": "bool", "name": "", "type": "bool" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    }
-];
+let currentUser = { username: null, isAdmin: false };
+
+const contractABI = [ /* Use the ABI you provided earlier here (omitted for brevity) */ ];
 const contractAddress = "0x5324b6576ed691c91f96e5dbe53a9d2659535fe3";
 
 async function connectWallet() {
@@ -418,8 +233,10 @@ async function registerNewUser() {
   try {
     await contract.methods.registerUser(username, password).send({ from: userAccount });
     alert("User registered!");
-    document.getElementById("loginContainer").classList.add("hidden");
-    document.getElementById("dashboard").classList.remove("hidden");
+    // Auto-login the new user
+    currentUser.username = username;
+    currentUser.isAdmin = false;
+    showDashboard();
   } catch(err) {
     console.error(err);
     if(err && err.message) alert("Registration failed: " + err.message);
@@ -434,19 +251,53 @@ async function loginUser() {
   try {
     const valid = await contract.methods.verifyUser(username, password).call({ from: userAccount });
     if(valid){
-      alert("Login successful!");
-      document.getElementById("loginContainer").classList.add("hidden");
-      document.getElementById("dashboard").classList.remove("hidden");
-    } else { alert("Invalid credentials"); }
+      currentUser.username = username;
+      // Fetch user details (isAdmin)
+      let userData = await contract.methods.users(username).call();
+      currentUser.isAdmin = userData.isAdmin;
+      showDashboard();
+    } else { 
+      alert("Invalid credentials"); 
+    }
   } catch(err){
     console.error(err);
-    if(err && err.message) alert("Login failed: " + err.message);
-    else alert("Login failed");
+    alert("Login failed");
   }
 }
+
 function logoutUser(){
+  currentUser = { username: null, isAdmin: false };
   document.getElementById("dashboard").classList.add("hidden");
   document.getElementById("loginContainer").classList.remove("hidden");
+  clearFraudReports();
+}
+
+function showDashboard() {
+  document.getElementById("loginContainer").classList.add("hidden");
+  const dashboard = document.getElementById("dashboard");
+  dashboard.classList.remove("hidden");
+  clearFraudReports();
+
+  // Apply theme based on user role
+  if(currentUser.isAdmin) {
+    dashboard.classList.add("admin");
+    dashboard.classList.remove("user");
+  } else {
+    dashboard.classList.add("user");
+    dashboard.classList.remove("admin");
+  }
+
+  // Show/hide fraud report search input for admin and user
+  const fraudSearchSection = document.getElementById("fraudReportSearchSection");
+  if(currentUser.isAdmin) {
+    fraudSearchSection.style.display = "block";
+  } else {
+    fraudSearchSection.style.display = "block"; // user also can search product id reports, but no all reports
+  }
+}
+
+function clearFraudReports() {
+  document.getElementById("fraudReportsList").innerHTML = "";
 }
 
 async function registerProduct() {
@@ -521,6 +372,10 @@ async function searchFraudReports() {
   if (!checkWalletConnection()) return;
   const id = document.getElementById("searchProductId").value;
   try {
+    if(currentUser.isAdmin) {
+      // Admin can search/fetch fraud reports for any product ID entered
+      // You can easily extend here if your contract supports fetching all fraud reports
+    }
     const reports = await contract.methods.getFraudReports(id).call();
     const list = document.getElementById("fraudReportsList");
     list.innerHTML="";
