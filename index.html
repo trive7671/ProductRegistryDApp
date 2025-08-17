@@ -694,27 +694,35 @@ button:active {
     }
   }
 
-  async function loginUser() {
-    if(!contract) return alert("Connect wallet first");
-    const username = document.getElementById('loginUsername').value;
-    const password = document.getElementById('loginPassword').value;
-    if(!username || !password) return alert("Fill all fields");
-    try {
-      const valid = await contract.methods.verifyUser(username, password).call({from: userAccount});
-      if(valid) {
-        document.getElementById('authSection').style.display = 'none';
-        document.getElementById('navBar').style.display = 'flex';
-        showSection('home');
-        loadAllProducts();
-        loadMyProducts();
-      } else {
-        alert("Invalid credentials");
-      }
-    } catch(err) {
-      console.error(err);
-      alert("Login failed: " + (err.message || ''));
-    }
+async function loginUser() {
+  if(!contract) {
+    alert('Please connect your wallet first.');
+    return;
   }
+
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value;
+
+  if(!username || !password){
+    alert('Please enter username and password.');
+    return;
+  }
+  
+  try {
+    const isValid = await contract.methods.verifyUser(username, password).call({ from: userAccount });
+    if(isValid){
+      // Login success: hide login form, show app section, etc.
+      alert('Login successful!');
+      // Your UI updates here
+    } else {
+      alert('Invalid username or password.');
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    alert('Login failed: ' + error.message);
+  }
+}
+
 
   async function registerNewUser() {
     if(!contract) return alert("Connect wallet first");
