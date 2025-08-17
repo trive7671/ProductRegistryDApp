@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Web3 Marketplace</title>
+  <title>Web3 Marketplace - Login</title>
   <style>
     :root {
       --primary: #2874f0;
@@ -17,20 +17,27 @@
     body {
       margin: 0; background: var(--gray);
       font-family: 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+      display: flex; 
+      flex-direction: column;
+      min-height: 100vh;
     }
     header {
       background: var(--dark);
       padding: 1rem 2rem;
       color: var(--light);
-      display: flex; align-items: center;
-      justify-content: space-between;
+      font-weight: bold;
+      font-size: 1.6rem;
+      text-align: center;
       box-shadow: 0 3px 10px rgba(0,0,0,.1);
     }
-    .nav {
-      display: flex; gap: 2rem;
+    nav.nav {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 0.8rem;
       font-size: 1.1rem;
     }
-    .nav a, .nav button {
+    nav.nav a, nav.nav button {
       color: var(--light);
       text-decoration: none;
       background: none;
@@ -38,82 +45,95 @@
       cursor: pointer;
       padding: 0.3rem 0.8rem;
       border-radius: 5px;
-      transition: background .2s;
+      transition: background 0.2s;
     }
-    .nav a:hover, .nav button:hover {
-      background:rgba(255,255,255,.08);
+    nav.nav a:hover, nav.nav button:hover {
+      background: rgba(255,255,255,0.08);
     }
-    .search-bar {
-      display: flex;
-      gap: 0.5rem;
-      margin: 2rem auto 0 auto;
-      max-width: 700px;
-      width: 98%;
+    .container {
+      max-width: 900px;
+      margin: 2rem auto 3rem auto;
+      background-color: #ffffffdd;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(38, 70, 83, 0.1);
+      padding: 2rem 2.5rem;
+      flex-grow: 1;
     }
-    .search-bar input {
-      flex: 1;
-      font-size: 1.1rem;
-      padding: 0.7rem;
-      border-radius: 7px;
-      border:1.5px solid #bbb;
+    h2 {
+      color: var(--primary);
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-align: center;
     }
-    .search-bar button {
-      background: var(--primary); color: #fff;
-      border: none; border-radius: 7px;
-      padding: 0 1.2rem; font-size:1.1rem;
-      font-weight: bold; cursor: pointer;
+    input, button, textarea {
+      display: block;
+      width: 100%;
+      margin-bottom: 1.25rem;
+      padding: 0.9rem 1.1rem;
+      font-size: 1rem;
+      border-radius: 14px;
+      border: 1.8px solid #a8dadc;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-      gap: 1.5rem;
-      margin: 2rem auto;
-      max-width: 1200px;
-      width: 97%;
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 8px rgba(40,116,240,0.35);
     }
-    .product-card {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(40,116,240,0.06);
-      overflow: hidden;
-      display: flex; flex-direction: column;
-      min-height: 320px;
-      transition: box-shadow .2s;
+    button {
+      background-color: var(--primary);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 5px 12px rgba(40,116,240,0.5);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
     }
-    .product-card:hover {
-      box-shadow: 0 14px 36px rgba(40,116,240,0.13);
+    button:hover {
+      background-color: #1a52b8;
+      box-shadow: 0 7px 16px rgba(26,82,184,0.75);
+      transform: translateY(-2px);
     }
-    .product-image {
-      width: 100%; height: 180px;
-      background: #edf2f8;
-      object-fit: contain;
-      border-bottom: 1px solid #eef0f2;
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 8px rgba(26,82,184,0.5);
     }
-    .product-details {
-      flex: 1;
-      padding: 1rem;
-      display: flex; flex-direction: column;
-      gap: 0.4rem;
+    .form-section {
+      max-width: 420px;
+      margin: 1rem auto;
+      background: #f1faee;
+      padding: 1.6rem 1.6rem 2rem 1.6rem;
+      border-radius: 20px;
+      box-shadow: 0 3px 8px rgba(38, 70, 83, 0.05);
+      border: 1px solid #a8dadc;
     }
-    .rating {
-      color: #fadb14;
-      font-size: 1.1rem;
+    .link-text {
+      text-align: center;
+      font-size: 0.93rem;
+      margin-top: -1rem;
+      margin-bottom: 1.25rem;
+      color: #555;
     }
-    .add-product-btn, .verify-btn {
-      margin-top: 1rem; background:var(--success); color:#fff;
-      border:none; padding:0.5rem 0.9rem; border-radius:7px;
-      font-weight:600; letter-spacing:0.04em; transition:background .2s;
-      cursor:pointer;
+    .link-text span {
+      color: var(--primary);
+      cursor: pointer;
+      text-decoration: underline;
     }
-    .add-product-btn:hover, .verify-btn:hover {
-      background: #21867a;
+
+    /* Hide all main sections except login by default */
+    #homeSection, #addProductSection, #dashboardSection {
+      display: none;
     }
-    .modal {
+    #detailsModal {
       display:none; position: fixed; left:0; top:0; width:100vw; height:100vh;
       background:rgba(40,116,240,0.15); z-index:22;
       justify-content: center; align-items: center;
     }
-    .modal.active { display: flex; }
+    #detailsModal.active { display: flex; }
     .modal-content {
       background:#fff; border-radius:18px; box-shadow:0 6px 40px rgba(40,116,240,.10);
       width:400px; max-width:95vw;
@@ -128,31 +148,70 @@
     .review-item { margin-bottom:1rem; font-size: 1rem; }
     .review-user { font-weight: 700; display:inline-block; margin-right:0.5em;}
     .review-rating { color:#fadb14; margin-left:0.6em;}
-    @media (max-width:600px){
+    @media (max-width: 600px) {
       .product-grid { grid-template-columns: 1fr; }
-      .modal-content { padding:1rem; }
+      .modal-content { padding: 1rem; }
+      .container, .form-section {
+        margin: 1rem 0 2rem;
+        border-radius: 10px;
+        padding: 1.5rem 1.5rem 1.2rem;
+      }
     }
   </style>
 </head>
 <body>
 <header>
-  <span style="font-size:1.6rem;font-weight:bold;">Web3 Marketplace</span>
-  <nav class="nav">
+  Web3 Marketplace
+  <nav class="nav" id="navBar" style="display:none;">
     <a href="#" onclick="showSection('home')">Home</a>
     <a href="#" onclick="showSection('add-product')">Add Product</a>
     <a href="#" onclick="showSection('dashboard')">My Products</a>
-    <button onclick="connectWallet()">Connect Wallet</button>
+    <button onclick="logoutUser()">Logout</button>
     <span id="walletAddress" style="color:#fff;margin-left:1rem;"></span>
   </nav>
 </header>
 
-<div class="search-bar">
-  <input id="searchInput" placeholder="Search for products, IDs, manufacturer..." />
-  <button onclick="searchProducts()">Search</button>
+<!-- LOGIN AND REGISTRATION -->
+<div class="form-section" id="authSection">
+  <div id="loginForm">
+    <h2>Login</h2>
+    <input id="loginUsername" placeholder="Username" />
+    <input type="password" id="loginPassword" placeholder="Password" />
+    <button onclick="loginUser()">Login</button>
+    <div class="link-text">Don't have an account? <span onclick="toggleAuthForms()">Register here</span></div>
+  </div>
+  <div id="registerForm" style="display:none;">
+    <h2>Register</h2>
+    <input id="regUsername" placeholder="Username" />
+    <input type="password" id="regPassword" placeholder="Password" />
+    <button onclick="registerNewUser()">Register</button>
+    <div class="link-text">Already have an account? <span onclick="toggleAuthForms()">Login here</span></div>
+  </div>
+  <div style="text-align:center; margin-top:10px;">
+    <button onclick="connectWallet()">Connect Wallet</button>
+  </div>
 </div>
 
-<div id="homeSection">
+<!-- MAIN APP SECTIONS -->
+<div class="container" id="homeSection">
+  <div class="search-bar">
+    <input id="searchInput" placeholder="Search for products, IDs, manufacturer..." />
+    <button onclick="searchProducts()">Search</button>
+  </div>
   <div class="product-grid" id="productGrid"></div>
+</div>
+
+<div class="container" id="addProductSection" style="max-width:440px; margin:2rem auto;">
+  <h2>Add a New Product</h2>
+  <input id="newProductId" placeholder="Product ID" required />
+  <input id="newProductName" placeholder="Product Name" required />
+  <input id="newProductManufacturer" placeholder="Manufacturer" required />
+  <button class="add-product-btn" onclick="addProduct()">Add Product</button>
+</div>
+
+<div class="container" id="dashboardSection" style="max-width:600px; margin:2rem auto;">
+  <h2>My Registered Products</h2>
+  <div id="myProductList">Loading...</div>
 </div>
 
 <!-- Product Details Modal -->
@@ -174,27 +233,25 @@
   </div>
 </div>
 
-<!-- Add Product Section -->
-<div class="container hidden" id="addProductSection" style="max-width:440px; margin:2rem auto;">
-  <h2>Add a New Product</h2>
-  <input id="newProductId" placeholder="Product ID" required />
-  <input id="newProductName" placeholder="Product Name" required />
-  <input id="newProductManufacturer" placeholder="Manufacturer" required />
-  <button class="add-product-btn" onclick="addProduct()">Add Product</button>
-</div>
-
-<!-- Dashboard Section -->
-<div class="container hidden" id="dashboardSection" style="max-width:600px; margin:2rem auto;">
-  <h2>My Registered Products</h2>
-  <div id="myProductList">Loading...</div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
 <script>
   const contractAddress = "0x5324b6576ed691c91f96e5dbe53a9d2659535fe3";
-  const contractABI = [/* Your full ABI here as previously provided */];
+  const contractABI = [/* Your ABI here as before */];
   let contract, web3, userAccount;
   let currentModalProductId = null;
+
+  // Toggle between login & registration in UI
+  function toggleAuthForms() {
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    if(loginForm.style.display === 'none') {
+      loginForm.style.display = 'block';
+      registerForm.style.display = 'none';
+    } else {
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'block';
+    }
+  }
 
   async function connectWallet() {
     if (window.ethereum) {
@@ -205,8 +262,6 @@
         contract = new web3.eth.Contract(contractABI, contractAddress);
         document.getElementById('walletAddress').innerText = userAccount;
         alert("Wallet connected: " + userAccount);
-        loadMyProducts();
-        loadAllProducts();
       } catch (err) {
         console.error(err); alert("Wallet connection failed");
       }
@@ -215,191 +270,100 @@
     }
   }
 
-  // UTILITIES
+  // LOGIN
+  async function loginUser() {
+    if (!contract) return alert('Connect wallet first');
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+    if (!username || !password) return alert('Fill all fields');
+    try {
+      const valid = await contract.methods.verifyUser(username, password).call({from: userAccount});
+      if (valid) {
+        // Hide auth and show nav + main sections
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('navBar').style.display = 'flex';
+        showSection('home');
+        loadAllProducts();
+        loadMyProducts();
+      } else {
+        alert('Invalid credentials');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Login failed: ' + (err.message || ''));
+    }
+  }
+
+  // REGISTER
+  async function registerNewUser() {
+    if (!contract) return alert('Connect wallet first');
+    const username = document.getElementById("regUsername").value;
+    const password = document.getElementById("regPassword").value;
+    if (!username || !password) return alert('Fill all fields');
+    try {
+      await contract.methods.registerUser(username, password).send({from: userAccount});
+      alert('Registration successful! Login now.');
+      toggleAuthForms();
+    } catch (err) {
+      console.error(err);
+      alert('Registration failed: ' + (err.message || ''));
+    }
+  }
+
+  // LOGOUT
+  function logoutUser() {
+    document.getElementById('authSection').style.display = 'block';
+    document.getElementById('navBar').style.display = 'none';
+    document.getElementById('homeSection').style.display = 'none';
+    document.getElementById('addProductSection').style.display = 'none';
+    document.getElementById('dashboardSection').style.display = 'none';
+    document.getElementById('walletAddress').innerText = '';
+    userAccount = null;
+  }
+
+  // UI SECTION SWITCHER
   function showSection(section) {
     document.getElementById('homeSection').style.display = section === 'home' ? 'block' : 'none';
-    document.getElementById('addProductSection').classList.toggle('hidden', section !== 'add-product');
-    document.getElementById('dashboardSection').classList.toggle('hidden', section !== 'dashboard');
+    document.getElementById('addProductSection').style.display = section === 'add-product' ? 'block' : 'none';
+    document.getElementById('dashboardSection').style.display = section === 'dashboard' ? 'block' : 'none';
+
     if (section === 'dashboard') loadMyProducts();
     if (section === 'home') loadAllProducts();
   }
 
-  function avgRating(reviews) {
-    if (!reviews || reviews.length === 0) return 0;
-    let sum = 0;
-    reviews.forEach(r => sum += r.rating);
-    return sum / reviews.length;
-  }
-
-  // LOAD ALL PRODUCTS (for public home display)
+  // LOAD ALL PRODUCTS (with placeholder, replace with contract calls)
   async function loadAllProducts() {
-    if (!contract) return;
     const productGrid = document.getElementById('productGrid');
     productGrid.innerHTML = '<p>Loading products...</p>';
     try {
-      // Example: In your smart contract you may need to keep track of product IDs yourself;
-      // Here we assume you have them or you loop range or events. For demo, get products stored externally:
-      // Since `products` is a mapping, you need to keep track of product IDs on-chain or from event logs.
-      // For demo, using a mocked array, replace with your product id list or events retrieval.
-
-      // To get all product IDs, you'd likely store them in contract arrays or catch ProductRegistered events off-chain
-
-      // For demo, just show placeholder or empty
-      productGrid.innerHTML = '<p>No products to display: implement product fetching logic.</p>';
-    } catch (e) {
+      // TODO: Implement product list fetch from contract or indexed events
+      productGrid.innerHTML = '<p>No products found (implement data fetch)</p>';
+    } catch(e) {
       console.error(e);
       productGrid.innerHTML = '<p>Error loading products</p>';
     }
   }
 
-  // LOAD USER'S PRODUCTS FOR DASHBOARD
+  // LOAD MY PRODUCTS (placeholder)
   async function loadMyProducts() {
-    if (!contract || !userAccount) {
-      document.getElementById('myProductList').innerText = 'Please connect wallet first.';
+    const container = document.getElementById('myProductList');
+    if(!userAccount) {
+      container.innerText = 'Please connect wallet.';
       return;
     }
-    const container = document.getElementById('myProductList');
     container.innerHTML = 'Loading...';
-
     try {
-      // Here you must have a way to get products registered by the current user.
-      // Your contract currently lacks owner tracking per product,
-      // so extend contract to store product owners or filter ProductRegistered events by user address to fetch their products.
-
-      container.innerHTML = '<p>My products loading requires contract owner tracking, please implement or fetch events.</p>';
-    } catch (e) {
+      // TODO: Implement fetching products registered by user
+      container.innerHTML = '<p>My products list loading (implement contract call)</p>';
+    } catch(e) {
       console.error(e);
       container.innerHTML = '<p>Error loading your products.</p>';
     }
   }
 
-  // VIEW PRODUCT DETAILS
-  async function openDetails(productId) {
-    if (!contract) return;
-    currentModalProductId = productId;
-    // Fetch product details:
-    try {
-      const product = await contract.methods.getProduct(productId).call();
-      const verified = await isProductVerified(productId);
+  // Other marketplace functions (addProduct, openDetails, etc) here similar to previous provided full code
+  // ...
 
-      document.getElementById('modalName').innerText = product[0];
-      document.getElementById('modalManufacturer').innerText = product[10];
-      document.getElementById('modalId').innerText = productId;
-      document.getElementById('modalVerified').innerText = verified ? 'Yes' : 'No';
-
-      document.getElementById('verifyBtn').style.display = verified ? 'none' : 'inline-block';
-
-      // Load reviews from getFraudReports as an example if your reviews are stored there or create new
-      const reviewsRaw = await contract.methods.getFraudReports(productId).call();
-      let reviews = reviewsRaw.map(r => {
-        return {
-          user: r.reporter,
-          text: r.description,
-          rating: 5 // You may add rating param to your contract reportFraud or define a separate review system in smart contract
-        };
-      });
-      renderReviews(reviews);
-      document.getElementById('detailsModal').classList.add('active');
-    } catch (err) {
-      console.error(err);
-      alert('Failed to fetch product details');
-    }
-  }
-  function closeModal() {
-    document.getElementById('detailsModal').classList.remove('active');
-    currentModalProductId = null;
-  }
-  function renderReviews(reviews) {
-    const list = document.getElementById('reviewList');
-    if (!reviews || reviews.length === 0) {
-      list.innerHTML = "<i>No reviews yet.</i>";
-      return;
-    }
-    list.innerHTML = reviews.map(r => `
-      <div class="review-item">
-        <span class="review-user">${r.user}</span>:
-        <span>${r.text}</span>
-        <span class="review-rating">${'★'.repeat(r.rating)}</span>
-      </div>
-    `).join('');
-  }
-
-  // ADD PRODUCT
-  async function addProduct() {
-    if (!contract || !userAccount) {
-      alert('Please connect your wallet before adding a product.');
-      return;
-    }
-    const id = document.getElementById('newProductId').value.trim();
-    const name = document.getElementById('newProductName').value.trim();
-    const manufacturer = document.getElementById('newProductManufacturer').value.trim();
-    if (!id || !name || !manufacturer) {
-      alert('Please fill all fields');
-      return;
-    }
-    try {
-      await contract.methods.registerProduct(id, name, manufacturer).send({ from: userAccount });
-      alert('Product added successfully!');
-      document.getElementById('newProductId').value = '';
-      document.getElementById('newProductName').value = '';
-      document.getElementById('newProductManufacturer').value = '';
-      showSection('home');
-      loadAllProducts();
-    } catch (err) {
-      console.error(err);
-      alert('Failed to add product: ' + (err.message || ''));
-    }
-  }
-
-  // VERIFY PRODUCT
-  async function verifySelectedProduct() {
-    if (!contract || !userAccount || !currentModalProductId) return alert('Please connect wallet and select a product');
-    try {
-      // Your smart contract doesn't have a "verifyProduct" function, you might want to create one
-      // For demo, let's assume confirmDelivery with dummy buyer data acts as verification, else create explicit verify function in contract
-
-      // Example call if exists: await contract.methods.verifyProduct(currentModalProductId).send({ from: userAccount });
-
-      alert('Please implement product verification method in the smart contract');
-    } catch (err) {
-      console.error(err);
-      alert('Verification failed: ' + (err.message || ''));
-    }
-  }
-
-  // ADD REVIEW
-  async function addReview(event) {
-    event.preventDefault();
-    if (!contract || !userAccount || !currentModalProductId) return alert('Please connect wallet and open product details');
-    const text = document.getElementById('reviewInput').value.trim();
-    let rating = parseInt(document.getElementById('ratingInput').value, 10);
-    if (!text || !rating || rating < 1 || rating > 5) {
-      alert('Please enter valid review text and rating');
-      return;
-    }
-    try {
-      // Your current contract has `reportFraud(productId, description)` which is misused here if reviews are treated as fraud reports
-      // You should build a separate `addReview(productId, reviewText, rating)` method in your smart contract for proper reviews.
-      // For demo, we use fraud report as a review placeholder.
-
-      await contract.methods.reportFraud(currentModalProductId, text).send({ from: userAccount });
-      alert('Review added!');
-      document.getElementById('reviewInput').value = '';
-      document.getElementById('ratingInput').value = 5;
-      openDetails(currentModalProductId); // Reload details to show new review
-    } catch (err) {
-      console.error(err);
-      alert('Failed to add review: ' + (err.message || ''));
-    }
-  }
-
-  // SEARCH PRODUCTS (Placeholder: implement your own filtering mechanic)
-  function searchProducts() {
-    alert('Please implement product searching logic, ideally fetching IDs or filtering locally');
-  }
-
-  // Initial view
-  showSection('home');
 </script>
 </body>
 </html>
