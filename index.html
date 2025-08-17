@@ -1,542 +1,405 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Product Registry dApp</title>
-<style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #c7ecee, #f9f9f9);
-    margin: 0;
-    color: #264653;
-  }
-
-  header {
-    background-color: #2a9d8f;
-    padding: 1.5rem 1rem;
-    text-align: center;
-    color: white;
-    box-shadow: 0 6px 15px rgba(42, 157, 143, 0.25);
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-  }
-
-  .connect-wallet span {
-    margin-left: 1rem;
-    font-weight: 600;
-    font-size: 1rem;
-  }
-
-  .container {
-    max-width: 900px;
-    margin: 2.5rem auto;
-    background-color: #ffffffdd;
-    border-radius: 20px;
-    box-shadow: 0 8px 16px rgba(38, 70, 83, 0.1);
-    padding: 2rem 2.5rem;
-  }
-
-  h2 {
-    color: #2a9d8f;
-    border-bottom: 3px solid #2a9d8f;
-    padding-bottom: 0.6rem;
-    margin-bottom: 1rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-  }
-
-  input,
-  button,
-  textarea {
-    display: block;
-    width: 100%;
-    margin-bottom: 1.25rem;
-    padding: 0.9rem 1.1rem;
-    font-size: 1rem;
-    border-radius: 14px;
-    border: 1.8px solid #a8dadc;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  input:focus,
-  textarea:focus {
-    outline: none;
-    border-color: #2a9d8f;
-    box-shadow: 0 0 8px rgba(42, 157, 143, 0.35);
-  }
-
-  textarea {
-    min-height: 80px;
-    resize: vertical;
-  }
-
-  button {
-    background-color: #2a9d8f;
-    color: white;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-    box-shadow: 0 5px 12px rgba(42, 157, 143, 0.5);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-  }
-
-  button:hover {
-    background-color: #21867a;
-    box-shadow: 0 7px 16px rgba(33, 134, 122, 0.75);
-    transform: translateY(-2px);
-  }
-
-  button:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 8px rgba(33, 134, 122, 0.5);
-  }
-
-  .section {
-    background: #f1faee;
-    padding: 1.8rem 1.6rem;
-    margin-bottom: 2rem;
-    border-radius: 20px;
-    box-shadow: 0 3px 8px rgba(38, 70, 83, 0.05);
-    border: 1px solid #a8dadc;
-  }
-
-  #dashboard .section:not(:last-child) {
-    margin-bottom: 2rem;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  /* Align logout button right */
-  #dashboard > .section:first-child {
-    text-align: right;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Web3 Marketplace</title>
+  <style>
+    :root {
+      --primary: #2874f0;
+      --accent: #ffb300;
+      --dark: #232f3e;
+      --gray: #f4f4f4;
+      --light: #ffffff;
+      --success: #2a9d8f;
+      --danger: #e53935;
+    }
+    body {
+      margin: 0; background: var(--gray);
+      font-family: 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+    }
+    header {
+      background: var(--dark);
+      padding: 1rem 2rem;
+      color: var(--light);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 3px 10px rgba(0,0,0,.1);
+    }
+    .nav {
+      display: flex; gap: 2rem;
+      font-size: 1.1rem;
+    }
+    .nav a, .nav button {
+      color: var(--light);
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.3rem 0.8rem;
+      border-radius: 5px;
+      transition: background .2s;
+    }
+    .nav a:hover, .nav button:hover {
+      background:rgba(255,255,255,.08);
+    }
+    .search-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin: 2rem auto 0 auto;
+      max-width: 700px;
+      width: 98%;
+    }
+    .search-bar input {
+      flex: 1;
+      font-size: 1.1rem;
+      padding: 0.7rem;
+      border-radius: 7px;
+      border:1.5px solid #bbb;
+    }
+    .search-bar button {
+      background: var(--primary); color: #fff;
+      border: none; border-radius: 7px;
+      padding: 0 1.2rem; font-size:1.1rem;
+      font-weight: bold; cursor: pointer;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 1.5rem;
+      margin: 2rem auto;
+      max-width: 1200px;
+      width: 97%;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(40,116,240,0.06);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      min-height: 320px;
+      transition: box-shadow .2s;
+    }
+    .product-card:hover {
+      box-shadow: 0 14px 36px rgba(40,116,240,0.13);
+    }
+    .product-image {
+      width: 100%; height: 180px;
+      background: #edf2f8;
+      object-fit: contain;
+      border-bottom: 1px solid #eef0f2;
+    }
+    .product-details {
+      flex: 1;
+      padding: 1rem;
+      display: flex; flex-direction: column;
+      gap: 0.4rem;
+    }
+    .rating {
+      color: #fadb14;
+      font-size: 1.1rem;
+    }
+    .add-product-btn, .verify-btn {
+      margin-top: 1rem; background:var(--success); color:#fff;
+      border:none; padding:0.5rem 0.9rem; border-radius:7px;
+      font-weight:600; letter-spacing:0.04em; transition:background .2s;
+      cursor:pointer;
+    }
+    .add-product-btn:hover, .verify-btn:hover {
+      background: #21867a;
+    }
+    .modal {
+      display:none; position: fixed; left:0; top:0; width:100vw; height:100vh;
+      background:rgba(40,116,240,0.15); z-index:22;
+      justify-content: center; align-items: center;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background:#fff; border-radius:18px; box-shadow:0 6px 40px rgba(40,116,240,.10);
+      width:400px; max-width:95vw;
+      padding:2rem 2rem 1.2rem 2rem;
+      position:relative;
+    }
+    .close-btn {
+      position:absolute; top:1rem; right:1.2rem; cursor:pointer;
+      font-weight:700; color:#a8a8a8; font-size:1.3rem;
+    }
+    .review-list { margin-top: 1.2rem;}
+    .review-item { margin-bottom:1rem; font-size: 1rem; }
+    .review-user { font-weight: 700; display:inline-block; margin-right:0.5em;}
+    .review-rating { color:#fadb14; margin-left:0.6em;}
+    @media (max-width:600px){
+      .product-grid { grid-template-columns: 1fr; }
+      .modal-content { padding:1rem; }
+    }
+  </style>
 </head>
 <body>
 <header>
-  <h1>Product Registry dApp</h1>
-  <div class="connect-wallet">
+  <span style="font-size:1.6rem;font-weight:bold;">Web3 Marketplace</span>
+  <nav class="nav">
+    <a href="#" onclick="showSection('home')">Home</a>
+    <a href="#" onclick="showSection('add-product')">Add Product</a>
+    <a href="#" onclick="showSection('dashboard')">My Products</a>
     <button onclick="connectWallet()">Connect Wallet</button>
-    <span id="walletAddress"></span>
-  </div>
+    <span id="walletAddress" style="color:#fff;margin-left:1rem;"></span>
+  </nav>
 </header>
 
-<div class="container" id="loginContainer">
-  <div class="section">
-    <h2>Login</h2>
-    <input id="loginUsername" placeholder="Username" />
-    <input type="password" id="loginPassword" placeholder="Password" />
-    <button onclick="loginUser()">Login</button>
-  </div>
-  <div class="section">
-    <h2>New User Registration</h2>
-    <input id="regUsername" placeholder="Username" />
-    <input type="password" id="regPassword" placeholder="Password" />
-    <button onclick="registerNewUser()">Register</button>
+<div class="search-bar">
+  <input id="searchInput" placeholder="Search for products, IDs, manufacturer..." />
+  <button onclick="searchProducts()">Search</button>
+</div>
+
+<div id="homeSection">
+  <div class="product-grid" id="productGrid"></div>
+</div>
+
+<!-- Product Details Modal -->
+<div class="modal" id="detailsModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <h2 id="modalName"></h2>
+    <div><strong>Manufacturer:</strong> <span id="modalManufacturer"></span></div>
+    <div><strong>Product ID:</strong> <span id="modalId"></span></div>
+    <div><strong>Verified:</strong> <span id="modalVerified"></span></div>
+    <button id="verifyBtn" class="verify-btn" onclick="verifySelectedProduct()">Verify Product</button>
+    <h3 style="margin-top:1.4em;">Reviews</h3>
+    <div class="review-list" id="reviewList"></div>
+    <form onsubmit="addReview(event);" style="margin-top:1.3em;">
+      <input id="reviewInput" maxlength="256" placeholder="Your review" required />
+      <input id="ratingInput" type="number" min="1" max="5" value="5" required style="width: 90px; display:inline-block;" /> &nbsp;stars
+      <button type="submit" style="margin-top:0.5em;">Add Review</button>
+    </form>
   </div>
 </div>
 
-<div class="container hidden" id="dashboard">
-  <div class="section">
-    <button onclick="logoutUser()">Logout</button>
-  </div>
+<!-- Add Product Section -->
+<div class="container hidden" id="addProductSection" style="max-width:440px; margin:2rem auto;">
+  <h2>Add a New Product</h2>
+  <input id="newProductId" placeholder="Product ID" required />
+  <input id="newProductName" placeholder="Product Name" required />
+  <input id="newProductManufacturer" placeholder="Manufacturer" required />
+  <button class="add-product-btn" onclick="addProduct()">Add Product</button>
+</div>
 
-  <div class="section">
-    <h2>Register Product</h2>
-    <input id="productId" placeholder="Product ID" />
-    <input id="productName" placeholder="Product Name" />
-    <input id="manufacturer" placeholder="Manufacturer" />
-    <button onclick="registerProduct()">Register Product</button>
-  </div>
-
-  <div class="section">
-    <h2>Verify Product</h2>
-    <input id="verifyId" placeholder="Enter Product ID" />
-    <button onclick="verifyProduct()">Verify Product</button>
-    <p id="verifyResult"></p>
-  </div>
-
-  <div class="section">
-    <h2>Delivery Confirmation with OTP</h2>
-    <input id="deliveryId" placeholder="Product ID" />
-    <input id="buyerName" placeholder="Buyer Name" />
-    <input id="buyerMobile" placeholder="Buyer Mobile Number" />
-    <button onclick="sendOTP()">Send OTP</button>
-    <input id="otpCode" placeholder="Enter OTP" />
-    <button onclick="confirmDelivery()">Confirm Delivery</button>
-  </div>
-
-  <div class="section">
-    <h2>Fraud Report</h2>
-    <input id="fraudProductId" placeholder="Product ID" />
-    <textarea id="fraudDescription" placeholder="Describe the issue..."></textarea>
-    <button onclick="submitFraudReport()">Submit Report</button>
-  </div>
-
-  <div class="section">
-    <h2>Check Fraud Reports</h2>
-    <input id="searchProductId" placeholder="Product ID to Search Reports" />
-    <button onclick="searchFraudReports()">Search Reports</button>
-    <ul id="fraudReportsList"></ul>
-  </div>
+<!-- Dashboard Section -->
+<div class="container hidden" id="dashboardSection" style="max-width:600px; margin:2rem auto;">
+  <h2>My Registered Products</h2>
+  <div id="myProductList">Loading...</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
 <script>
-let contract, userAccount, currentOTP;
-const contractABI = [
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_id", "type": "string" },
-            { "internalType": "string", "name": "_buyerName", "type": "string" },
-            { "internalType": "string", "name": "_buyerMobile", "type": "string" }
-        ],
-        "name": "confirmDelivery",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": false, "internalType": "string", "name": "productId", "type": "string" }
-        ],
-        "name": "DeliveryConfirmed",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": false, "internalType": "string", "name": "productId", "type": "string" },
-            { "indexed": false, "internalType": "address", "name": "reporter", "type": "address" }
-        ],
-        "name": "FraudReported",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": false, "internalType": "string", "name": "productId", "type": "string" }
-        ],
-        "name": "ProductRegistered",
-        "type": "event"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_id", "type": "string" },
-            { "internalType": "string", "name": "_name", "type": "string" },
-            { "internalType": "string", "name": "_manufacturer", "type": "string" }
-        ],
-        "name": "registerProduct",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_username", "type": "string" },
-            { "internalType": "string", "name": "_password", "type": "string" }
-        ],
-        "name": "registerUser",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_id", "type": "string" },
-            { "internalType": "string", "name": "_description", "type": "string" }
-        ],
-        "name": "reportFraud",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": false, "internalType": "string", "name": "username", "type": "string" }
-        ],
-        "name": "UserRegistered",
-        "type": "event"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "", "type": "string" }
-        ],
-        "name": "deliveries",
-        "outputs": [
-            { "internalType": "string", "name": "buyerName", "type": "string" },
-            { "internalType": "string", "name": "buyerMobile", "type": "string" },
-            { "internalType": "bool", "name": "delivered", "type": "bool" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "", "type": "string" },
-            { "internalType": "uint256", "name": "", "type": "uint256" }
-        ],
-        "name": "fraudReports",
-        "outputs": [
-            { "internalType": "address", "name": "reporter", "type": "address" },
-            { "internalType": "string", "name": "description", "type": "string" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_id", "type": "string" }
-        ],
-        "name": "getDelivery",
-        "outputs": [
-            { "internalType": "string", "name": "", "type": "string" },
-            { "internalType": "string", "name": "", "type": "string" },
-            { "internalType": "bool", "name": "", "type": "bool" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_id", "type": "string" }
-        ],
-        "name": "getFraudReports",
-        "outputs": [
-            {
-                "components": [
-                    { "internalType": "address", "name": "reporter", "type": "address" },
-                    { "internalType": "string", "name": "description", "type": "string" }
-                ],
-                "internalType": "struct ProductRegistry.FraudReport[]",
-                "name": "",
-                "type": "tuple[]"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_id", "type": "string" }
-        ],
-        "name": "getProduct",
-        "outputs": [
-            { "internalType": "string", "name": "", "type": "string" },
-            { "internalType": "string", "name": "", "type": "string" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "owner",
-        "outputs": [
-            { "internalType": "address", "name": "", "type": "address" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "", "type": "string" }
-        ],
-        "name": "products",
-        "outputs": [
-            { "internalType": "string", "name": "name", "type": "string" },
-            { "internalType": "string", "name": "manufacturer", "type": "string" },
-            { "internalType": "bool", "name": "exists", "type": "bool" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "", "type": "string" }
-        ],
-        "name": "users",
-        "outputs": [
-            { "internalType": "string", "name": "username", "type": "string" },
-            { "internalType": "bytes32", "name": "passwordHash", "type": "bytes32" },
-            { "internalType": "bool", "name": "isAdmin", "type": "bool" },
-            { "internalType": "bool", "name": "registered", "type": "bool" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "string", "name": "_username", "type": "string" },
-            { "internalType": "string", "name": "_password", "type": "string" }
-        ],
-        "name": "verifyUser",
-        "outputs": [
-            { "internalType": "bool", "name": "", "type": "bool" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    }
-];
-const contractAddress = "0x5324b6576ed691c91f96e5dbe53a9d2659535fe3";
+  const contractAddress = "0x5324b6576ed691c91f96e5dbe53a9d2659535fe3";
+  const contractABI = [/* Your full ABI here as previously provided */];
+  let contract, web3, userAccount;
+  let currentModalProductId = null;
 
-async function connectWallet() {
-  if(window.ethereum){
-    const web3 = new Web3(window.ethereum);
+  async function connectWallet() {
+    if (window.ethereum) {
+      web3 = new Web3(window.ethereum);
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        userAccount = accounts[0];
+        contract = new web3.eth.Contract(contractABI, contractAddress);
+        document.getElementById('walletAddress').innerText = userAccount;
+        alert("Wallet connected: " + userAccount);
+        loadMyProducts();
+        loadAllProducts();
+      } catch (err) {
+        console.error(err); alert("Wallet connection failed");
+      }
+    } else {
+      alert("MetaMask not detected");
+    }
+  }
+
+  // UTILITIES
+  function showSection(section) {
+    document.getElementById('homeSection').style.display = section === 'home' ? 'block' : 'none';
+    document.getElementById('addProductSection').classList.toggle('hidden', section !== 'add-product');
+    document.getElementById('dashboardSection').classList.toggle('hidden', section !== 'dashboard');
+    if (section === 'dashboard') loadMyProducts();
+    if (section === 'home') loadAllProducts();
+  }
+
+  function avgRating(reviews) {
+    if (!reviews || reviews.length === 0) return 0;
+    let sum = 0;
+    reviews.forEach(r => sum += r.rating);
+    return sum / reviews.length;
+  }
+
+  // LOAD ALL PRODUCTS (for public home display)
+  async function loadAllProducts() {
+    if (!contract) return;
+    const productGrid = document.getElementById('productGrid');
+    productGrid.innerHTML = '<p>Loading products...</p>';
     try {
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      userAccount = accounts[0];
-      contract = new web3.eth.Contract(contractABI, contractAddress);
-      document.getElementById('walletAddress').innerText = userAccount;
-      alert("Wallet connected: " + userAccount);
-    } catch(err){ console.error(err); alert("Failed to connect wallet."); }
-  } else { alert("MetaMask not detected."); }
-}
+      // Example: In your smart contract you may need to keep track of product IDs yourself;
+      // Here we assume you have them or you loop range or events. For demo, get products stored externally:
+      // Since `products` is a mapping, you need to keep track of product IDs on-chain or from event logs.
+      // For demo, using a mocked array, replace with your product id list or events retrieval.
 
-function checkWalletConnection() {
-  if(!contract || !userAccount) {
-    alert("Please connect your wallet first.");
-    return false;
-  }
-  return true;
-}
+      // To get all product IDs, you'd likely store them in contract arrays or catch ProductRegistered events off-chain
 
-async function registerNewUser() {
-  if (!checkWalletConnection()) return;
-  const username = document.getElementById("regUsername").value;
-  const password = document.getElementById("regPassword").value;
-  try {
-    await contract.methods.registerUser(username, password).send({ from: userAccount });
-    alert("User registered!");
-    document.getElementById("loginContainer").classList.add("hidden");
-    document.getElementById("dashboard").classList.remove("hidden");
-  } catch(err) {
-    console.error(err);
-    if(err && err.message) alert("Registration failed: " + err.message);
-    else alert("Registration failed");
-  }
-}
-
-async function loginUser() {
-  if (!checkWalletConnection()) return;
-  const username = document.getElementById("loginUsername").value;
-  const password = document.getElementById("loginPassword").value;
-  try {
-    const valid = await contract.methods.verifyUser(username, password).call({ from: userAccount });
-    if(valid){
-      // Directly switch UI without alert
-      document.getElementById("loginContainer").classList.add("hidden");
-      document.getElementById("dashboard").classList.remove("hidden");
-    } else { 
-      alert("Invalid credentials"); 
+      // For demo, just show placeholder or empty
+      productGrid.innerHTML = '<p>No products to display: implement product fetching logic.</p>';
+    } catch (e) {
+      console.error(e);
+      productGrid.innerHTML = '<p>Error loading products</p>';
     }
-  } catch(err){
-    console.error(err);
-    alert("Login failed");
   }
-}
 
-function logoutUser(){
-  document.getElementById("dashboard").classList.add("hidden");
-  document.getElementById("loginContainer").classList.remove("hidden");
-}
+  // LOAD USER'S PRODUCTS FOR DASHBOARD
+  async function loadMyProducts() {
+    if (!contract || !userAccount) {
+      document.getElementById('myProductList').innerText = 'Please connect wallet first.';
+      return;
+    }
+    const container = document.getElementById('myProductList');
+    container.innerHTML = 'Loading...';
 
-async function registerProduct() {
-  if (!checkWalletConnection()) return;
-  const id = document.getElementById("productId").value;
-  const name = document.getElementById("productName").value;
-  const mfg = document.getElementById("manufacturer").value;
-  try {
-    await contract.methods.registerProduct(id,name,mfg).send({ from:userAccount });
-    alert("Product registered!");
-  }
-  catch(err){
-    console.error(err);
-    if(err && err.message) alert("Failed to register product: " + err.message);
-    else alert("Failed to register product.");
-  }
-}
+    try {
+      // Here you must have a way to get products registered by the current user.
+      // Your contract currently lacks owner tracking per product,
+      // so extend contract to store product owners or filter ProductRegistered events by user address to fetch their products.
 
-async function verifyProduct() {
-  if (!checkWalletConnection()) return;
-  const id = document.getElementById("verifyId").value;
-  try {
-    const result = await contract.methods.getProduct(id).call();
-    document.getElementById("verifyResult").innerText = `Name: ${result[0]}, Manufacturer: ${result[1]}`;
-  } catch(err){
-    console.error(err);
-    document.getElementById("verifyResult").innerText = "";
-    if(err && err.message) alert("Product verification failed: " + err.message);
-    else alert("Product verification failed.");
+      container.innerHTML = '<p>My products loading requires contract owner tracking, please implement or fetch events.</p>';
+    } catch (e) {
+      console.error(e);
+      container.innerHTML = '<p>Error loading your products.</p>';
+    }
   }
-}
 
-function sendOTP() {
-  currentOTP = Math.floor(100000 + Math.random()*900000);
-  alert("OTP sent (simulated): "+currentOTP);
-}
+  // VIEW PRODUCT DETAILS
+  async function openDetails(productId) {
+    if (!contract) return;
+    currentModalProductId = productId;
+    // Fetch product details:
+    try {
+      const product = await contract.methods.getProduct(productId).call();
+      const verified = await isProductVerified(productId);
 
-async function confirmDelivery() {
-  if (!checkWalletConnection()) return;
-  const id = document.getElementById("deliveryId").value;
-  const name = document.getElementById("buyerName").value;
-  const mobile = document.getElementById("buyerMobile").value;
-  const otp = document.getElementById("otpCode").value;
-  if(parseInt(otp)!==currentOTP){ alert("Invalid OTP"); return; }
-  try{
-    await contract.methods.confirmDelivery(id,name,mobile).send({ from:userAccount });
-    alert("Delivery confirmed!");
-  }
-  catch(err){
-    console.error(err);
-    if(err && err.message) alert("Delivery failed: " + err.message);
-    else alert("Delivery failed.");
-  }
-}
+      document.getElementById('modalName').innerText = product[0];
+      document.getElementById('modalManufacturer').innerText = product[10];
+      document.getElementById('modalId').innerText = productId;
+      document.getElementById('modalVerified').innerText = verified ? 'Yes' : 'No';
 
-async function submitFraudReport() {
-  if (!checkWalletConnection()) return;
-  const id = document.getElementById("fraudProductId").value;
-  const desc = document.getElementById("fraudDescription").value;
-  try {
-    await contract.methods.reportFraud(id,desc).send({ from:userAccount });
-    alert("Report submitted!");
-  }
-  catch(err){
-    console.error(err);
-    if(err && err.message) alert("Failed to submit report: " + err.message);
-    else alert("Failed");
-  }
-}
+      document.getElementById('verifyBtn').style.display = verified ? 'none' : 'inline-block';
 
-async function searchFraudReports() {
-  if (!checkWalletConnection()) return;
-  const id = document.getElementById("searchProductId").value;
-  try {
-    const reports = await contract.methods.getFraudReports(id).call();
-    const list = document.getElementById("fraudReportsList");
-    list.innerHTML="";
-    reports.forEach(r=>{
-      const li=document.createElement("li");
-      li.textContent=`Reported by: ${r.reporter} - ${r.description}`;
-      list.appendChild(li);
-    });
-  } catch(err){
-    console.error(err);
-    if(err && err.message) alert("Failed to fetch reports: " + err.message);
-    else alert("Failed to fetch reports");
+      // Load reviews from getFraudReports as an example if your reviews are stored there or create new
+      const reviewsRaw = await contract.methods.getFraudReports(productId).call();
+      let reviews = reviewsRaw.map(r => {
+        return {
+          user: r.reporter,
+          text: r.description,
+          rating: 5 // You may add rating param to your contract reportFraud or define a separate review system in smart contract
+        };
+      });
+      renderReviews(reviews);
+      document.getElementById('detailsModal').classList.add('active');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to fetch product details');
+    }
   }
-}
+  function closeModal() {
+    document.getElementById('detailsModal').classList.remove('active');
+    currentModalProductId = null;
+  }
+  function renderReviews(reviews) {
+    const list = document.getElementById('reviewList');
+    if (!reviews || reviews.length === 0) {
+      list.innerHTML = "<i>No reviews yet.</i>";
+      return;
+    }
+    list.innerHTML = reviews.map(r => `
+      <div class="review-item">
+        <span class="review-user">${r.user}</span>:
+        <span>${r.text}</span>
+        <span class="review-rating">${'★'.repeat(r.rating)}</span>
+      </div>
+    `).join('');
+  }
+
+  // ADD PRODUCT
+  async function addProduct() {
+    if (!contract || !userAccount) {
+      alert('Please connect your wallet before adding a product.');
+      return;
+    }
+    const id = document.getElementById('newProductId').value.trim();
+    const name = document.getElementById('newProductName').value.trim();
+    const manufacturer = document.getElementById('newProductManufacturer').value.trim();
+    if (!id || !name || !manufacturer) {
+      alert('Please fill all fields');
+      return;
+    }
+    try {
+      await contract.methods.registerProduct(id, name, manufacturer).send({ from: userAccount });
+      alert('Product added successfully!');
+      document.getElementById('newProductId').value = '';
+      document.getElementById('newProductName').value = '';
+      document.getElementById('newProductManufacturer').value = '';
+      showSection('home');
+      loadAllProducts();
+    } catch (err) {
+      console.error(err);
+      alert('Failed to add product: ' + (err.message || ''));
+    }
+  }
+
+  // VERIFY PRODUCT
+  async function verifySelectedProduct() {
+    if (!contract || !userAccount || !currentModalProductId) return alert('Please connect wallet and select a product');
+    try {
+      // Your smart contract doesn't have a "verifyProduct" function, you might want to create one
+      // For demo, let's assume confirmDelivery with dummy buyer data acts as verification, else create explicit verify function in contract
+
+      // Example call if exists: await contract.methods.verifyProduct(currentModalProductId).send({ from: userAccount });
+
+      alert('Please implement product verification method in the smart contract');
+    } catch (err) {
+      console.error(err);
+      alert('Verification failed: ' + (err.message || ''));
+    }
+  }
+
+  // ADD REVIEW
+  async function addReview(event) {
+    event.preventDefault();
+    if (!contract || !userAccount || !currentModalProductId) return alert('Please connect wallet and open product details');
+    const text = document.getElementById('reviewInput').value.trim();
+    let rating = parseInt(document.getElementById('ratingInput').value, 10);
+    if (!text || !rating || rating < 1 || rating > 5) {
+      alert('Please enter valid review text and rating');
+      return;
+    }
+    try {
+      // Your current contract has `reportFraud(productId, description)` which is misused here if reviews are treated as fraud reports
+      // You should build a separate `addReview(productId, reviewText, rating)` method in your smart contract for proper reviews.
+      // For demo, we use fraud report as a review placeholder.
+
+      await contract.methods.reportFraud(currentModalProductId, text).send({ from: userAccount });
+      alert('Review added!');
+      document.getElementById('reviewInput').value = '';
+      document.getElementById('ratingInput').value = 5;
+      openDetails(currentModalProductId); // Reload details to show new review
+    } catch (err) {
+      console.error(err);
+      alert('Failed to add review: ' + (err.message || ''));
+    }
+  }
+
+  // SEARCH PRODUCTS (Placeholder: implement your own filtering mechanic)
+  function searchProducts() {
+    alert('Please implement product searching logic, ideally fetching IDs or filtering locally');
+  }
+
+  // Initial view
+  showSection('home');
 </script>
 </body>
 </html>
