@@ -5,156 +5,156 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Web3 Marketplace - Login & Products</title>
 <style>
-:root {
-  --primary: #2874f0;
-  --accent: #ffb300;
-  --dark: #232f3e;
-  --gray: #f4f4f4;
-  --light: #ffffff;
-  --success: #2a9d8f;
-  --danger: #e53935;
-}
-body {
-  margin: 0; background: var(--gray);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-header {
-  background: var(--dark);
-  padding: 1rem 2rem;
-  color: var(--light);
-  font-weight: bold;
-  font-size: 1.6rem;
-  text-align: center;
-  box-shadow: 0 3px 10px rgba(0,0,0,.1);
-}
-nav.nav {
-  display: flex;
-  gap: 2rem;
-  justify-content: center;
-  margin-top: 0.8rem;
-  font-size: 1.1rem;
-}
-nav.nav a, nav.nav button {
-  color: var(--light);
-  text-decoration: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.3rem 0.8rem;
-  border-radius: 5px;
-  transition: background 0.2s;
-}
-nav.nav a:hover, nav.nav button:hover {
-  background: rgba(255,255,255,0.08);
-}
-.container {
-  max-width: 900px;
-  margin: 2rem auto 3rem auto;
-  background-color: #ffffffdd;
-  border-radius: 20px;
-  box-shadow: 0 8px 16px rgba(38, 70, 83, 0.1);
-  padding: 2rem 2.5rem;
-  flex-grow: 1;
-}
-h2 {
-  color: var(--primary);
-  border-bottom: 3px solid var(--primary);
-  padding-bottom: 0.6rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-align: center;
-}
-input, button, textarea {
-  display: block;
-  width: 100%;
-  margin-bottom: 1.25rem;
-  padding: 0.9rem 1.1rem;
-  font-size: 1rem;
-  border-radius: 14px;
-  border: 1.8px solid #a8dadc;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-input:focus, textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 8px rgba(40,116,240,0.35);
-}
-button {
-  background-color: var(--primary);
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 5px 12px rgba(40,116,240,0.5);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-}
-button:hover {
-  background-color: #1a52b8;
-  box-shadow: 0 7px 16px rgba(26,82,184,0.75);
-  transform: translateY(-2px);
-}
-button:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 8px rgba(26,82,184,0.5);
-}
-.form-section {
-  max-width: 420px;
-  margin: 1rem auto;
-  background: #f1faee;
-  padding: 1.6rem 1.6rem 2rem 1.6rem;
-  border-radius: 20px;
-  box-shadow: 0 3px 8px rgba(38, 70, 83, 0.05);
-  border: 1px solid #a8dadc;
-}
-.link-text {
-  text-align: center;
-  font-size: 0.93rem;
-  margin-top: -1rem;
-  margin-bottom: 1.25rem;
-  color: #555;
-}
-.link-text span {
-  color: var(--primary);
-  cursor: pointer;
-  text-decoration: underline;
-}
-#homeSection, #addProductSection, #dashboardSection {
-  display: none;
-}
-#detailsModal {
-  display: none; position: fixed; left:0; top:0; width:100vw; height:100vh;
-  background: rgba(40,116,240,0.15); z-index: 22;
-  justify-content: center; align-items: center;
-}
-#detailsModal.active { display: flex; }
-.modal-content {
-  background: #fff; border-radius: 18px; box-shadow: 0 6px 40px rgba(40,116,240,.10);
-  width: 400px; max-width: 95vw;
-  padding: 2rem 2rem 1.2rem 2rem;
-  position: relative;
-}
-.close-btn {
-  position: absolute; top: 1rem; right: 1.2rem; cursor: pointer;
-  font-weight: 700; color: #a8a8a8; font-size: 1.3rem;
-}
-.review-list { margin-top: 1.2rem;}
-.review-item { margin-bottom: 1rem; font-size: 1rem; }
-.review-user { font-weight: 700; display: inline-block; margin-right: 0.5em;}
-.review-rating { color:#fadb14; margin-left:0.6em;}
-@media (max-width: 600px) {
-  .product-grid { grid-template-columns: 1fr; }
-  .modal-content { padding: 1rem; }
-  .container, .form-section {
-    margin: 1rem 0 2rem;
-    border-radius: 10px;
-    padding: 1.5rem 1.5rem 1.2rem;
+  :root {
+    --primary: #2874f0;
+    --accent: #ffb300;
+    --dark: #232f3e;
+    --gray: #f4f4f4;
+    --light: #ffffff;
+    --success: #2a9d8f;
+    --danger: #e53935;
   }
-}
+  body {
+    margin: 0; background: var(--gray);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  header {
+    background: var(--dark);
+    padding: 1rem 2rem;
+    color: var(--light);
+    font-weight: bold;
+    font-size: 1.6rem;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,.1);
+  }
+  nav.nav {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 0.8rem;
+    font-size: 1.1rem;
+  }
+  nav.nav a, nav.nav button {
+    color: var(--light);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem 0.8rem;
+    border-radius: 5px;
+    transition: background 0.2s;
+  }
+  nav.nav a:hover, nav.nav button:hover {
+    background: rgba(255,255,255,0.08);
+  }
+  .container {
+    max-width: 900px;
+    margin: 2rem auto 3rem auto;
+    background-color: #ffffffdd;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(38, 70, 83, 0.1);
+    padding: 2rem 2.5rem;
+    flex-grow: 1;
+  }
+  h2 {
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 0.6rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+  input, button, textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 1.25rem;
+    padding: 0.9rem 1.1rem;
+    font-size: 1rem;
+    border-radius: 14px;
+    border: 1.8px solid #a8dadc;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 8px rgba(40,116,240,0.35);
+  }
+  button {
+    background-color: var(--primary);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 5px 12px rgba(40,116,240,0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  }
+  button:hover {
+    background-color: #1a52b8;
+    box-shadow: 0 7px 16px rgba(26,82,184,0.75);
+    transform: translateY(-2px);
+  }
+  button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(26,82,184,0.5);
+  }
+  .form-section {
+    max-width: 420px;
+    margin: 1rem auto;
+    background: #f1faee;
+    padding: 1.6rem 1.6rem 2rem 1.6rem;
+    border-radius: 20px;
+    box-shadow: 0 3px 8px rgba(38, 70, 83, 0.05);
+    border: 1px solid #a8dadc;
+  }
+  .link-text {
+    text-align: center;
+    font-size: 0.93rem;
+    margin-top: -1rem;
+    margin-bottom: 1.25rem;
+    color: #555;
+  }
+  .link-text span {
+    color: var(--primary);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  #homeSection, #addProductSection, #dashboardSection {
+    display: none;
+  }
+  #detailsModal {
+    display: none; position: fixed; left:0; top:0; width:100vw; height:100vh;
+    background: rgba(40,116,240,0.15); z-index: 22;
+    justify-content: center; align-items: center;
+  }
+  #detailsModal.active { display: flex; }
+  .modal-content {
+    background: #fff; border-radius: 18px; box-shadow: 0 6px 40px rgba(40,116,240,.10);
+    width: 400px; max-width: 95vw;
+    padding: 2rem 2rem 1.2rem 2rem;
+    position: relative;
+  }
+  .close-btn {
+    position: absolute; top: 1rem; right: 1.2rem; cursor: pointer;
+    font-weight: 700; color: #a8a8a8; font-size: 1.3rem;
+  }
+  .review-list { margin-top: 1.2rem;}
+  .review-item { margin-bottom: 1rem; font-size: 1rem; }
+  .review-user { font-weight: 700; display: inline-block; margin-right: 0.5em;}
+  .review-rating { color:#fadb14; margin-left: 0.6em;}
+  @media (max-width: 600px) {
+    .product-grid { grid-template-columns: 1fr; }
+    .modal-content { padding: 1rem; }
+    .container, .form-section {
+      margin: 1rem 0 2rem;
+      border-radius: 10px;
+      padding: 1.5rem 1.5rem 1.2rem;
+    }
+  }
 </style>
 </head>
 <body>
@@ -236,7 +236,8 @@ button:active {
 <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
 <script>
   const contractAddress = "0x5f24fb08e759654167b2474311757444f2d587a2";
-  const contractABI = [[
+  const contractABI = [
+	  [
 	{
 		"inputs": [
 			{
@@ -660,8 +661,10 @@ button:active {
 		"stateMutability": "view",
 		"type": "function"
 	}
-]];
-  let contract, web3, userAccount;
+]
+  ];
+
+  let web3, contract, userAccount;
   let currentModalProductId = null;
 
   function toggleAuthForms() {
@@ -694,39 +697,31 @@ button:active {
     }
   }
 
-async function loginUser() {
-  if(!contract) {
-    alert('Please connect your wallet first.');
-    return;
-  }
-
-  const username = document.getElementById('loginUsername').value.trim();
-  const password = document.getElementById('loginPassword').value;
-
-  if(!username || !password){
-    alert('Please enter username and password.');
-    return;
-  }
-  
-  try {
-    const isValid = await contract.methods.verifyUser(username, password).call({ from: userAccount });
-    if(isValid){
-      // Login success: hide login form, show app section, etc.
-      alert('Login successful!');
-      // Your UI updates here
-    } else {
-      alert('Invalid username or password.');
+  async function loginUser() {
+    if(!contract) return alert("Connect wallet first");
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    if(!username || !password) return alert("Fill all fields");
+    try {
+      const valid = await contract.methods.verifyUser(username, password).call({from: userAccount});
+      if(valid) {
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('navBar').style.display = 'flex';
+        showSection('home');
+        loadAllProducts();
+        loadMyProducts();
+      } else {
+        alert("Invalid credentials");
+      }
+    } catch(err) {
+      console.error(err);
+      alert("Login failed: " + (err.message || ''));
     }
-  } catch (error) {
-    console.error('Login error:', error);
-    alert('Login failed: ' + error.message);
   }
-}
-
 
   async function registerNewUser() {
     if(!contract) return alert("Connect wallet first");
-    const username = document.getElementById('regUsername').value;
+    const username = document.getElementById('regUsername').value.trim();
     const password = document.getElementById('regPassword').value;
     if(!username || !password) return alert("Fill all fields");
     try {
@@ -761,8 +756,8 @@ async function loginUser() {
     const productGrid = document.getElementById('productGrid');
     productGrid.innerHTML = '<p>Loading products...</p>';
     try {
-      // TODO: implement product fetching logic from contract, using mapping or indexing events
-      productGrid.innerHTML = '<p>Feature pending - implement product fetching.</p>';
+      // Implement product fetching logic here for your contract
+      productGrid.innerHTML = '<p>No products loaded yet - implement fetching!</p>';
     } catch(err) {
       console.error(err);
       productGrid.innerHTML = '<p>Error loading products.</p>';
@@ -777,16 +772,15 @@ async function loginUser() {
     }
     container.innerHTML = 'Loading...';
     try {
-      // TODO: implement fetching products registered by user, from contract or via event filters
-      container.innerHTML = '<p>Feature pending - implement user products fetching.</p>';
+      // Implement your logic to fetch user products from contract or events
+      container.innerHTML = '<p>No user products loaded yet - implement fetching!</p>';
     } catch(err) {
       console.error(err);
       container.innerHTML = '<p>Error loading your products.</p>';
     }
   }
 
-  // Additional product, review, verify functions can be integrated following the structure above.
-
+  // Implement openDetails, addProduct, addReview, verifySelectedProduct, closeModal as needed
 </script>
 </body>
 </html>
