@@ -238,8 +238,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
 <script>
-const contractAddress = "0x2a4451400734cb209d51647b12c69087201a43d1";
-const contractABI = [[
+const contractAddress = "0x2a4451400734cb209d51647b12c69087201a43d1"; // your deployed contract address
+
+const contractABI = [ [
 	{
 		"inputs": [
 			{
@@ -663,20 +664,20 @@ const contractABI = [[
 		"stateMutability": "view",
 		"type": "function"
 	}
-]];
+] ];
 
-let web3, contract, userAccount;
-let currentModalProductId = null;
+let contract;
 
-function toggleAuthForms() {
-  const loginForm = document.getElementById('loginForm');
-  const registerForm = document.getElementById('registerForm');
-  if (loginForm.style.display === 'none') {
-    loginForm.style.display = 'block';
-    registerForm.style.display = 'none';
-  } else {
-    loginForm.style.display = 'none';
-    registerForm.style.display = 'block';
+async function connectWallet() {
+  if(window.ethereum){
+    const web3 = new Web3(window.ethereum);
+    try {
+      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+      contract = new web3.eth.Contract(contractABI, contractAddress);
+      // Store accounts etc...
+    } catch(e) {
+      // handle error
+    }
   }
 }
 
